@@ -13,7 +13,7 @@
     {{-- datatable --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-    <title>Mentora | YourTitleHere</title>
+    <title>Tiket Perahu</title>
     {{-- sweetalert cdn --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- fontawesome cdn --}}
