@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mentor;
-use App\Models\User;
 use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -14,10 +15,6 @@ class AuthController extends Controller
     public function showRegister()
     {
         return view('register.signup');
-    }
-    public function showRegisterMentor()
-    {
-        return view('register.signupMentor');
     }
     public function showLogin()
     {
@@ -28,8 +25,8 @@ class AuthController extends Controller
     {
         $r->validate([
             'name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|string',
         ]);
 
         try {
@@ -59,7 +56,7 @@ class AuthController extends Controller
 
             return redirect()->route('flight.index')->with('success', 'Login success!');
         } else {
-            return redirect()->back()->with('error', 'Invalid username or password!');
+            return redirect()->back()->with('error', 'Invalid email or password!');
         }
     }
 
