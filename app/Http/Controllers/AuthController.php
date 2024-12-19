@@ -26,7 +26,7 @@ class AuthController extends Controller
         $r->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|string',
+            'password' => 'required|string',
         ]);
 
         try {
