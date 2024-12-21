@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Flight;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,48 +15,23 @@ class FlightSeeder extends Seeder
      */
     public function run(): void
     {
-        $flights = [
-                [
-                    'flight_code' => 'JT610',
-                    'origin' => 'SUB',
-                    'destination' => 'CGK',
-                    'departure_time' => Carbon::now(),
-                    'arrival_time' =>Carbon::tomorrow(),
-                ],
-                [
-                    'flight_code' => 'JT611',
-                    'origin' => 'JPN',
-                    'destination' => 'NYC',
-                    'departure_time' => Carbon::now(),
-                    'arrival_time' =>Carbon::tomorrow(),
-                ],
-                [
-                    'flight_code' => 'JT612',
-                    'origin' => 'SGP',
-                    'destination' => 'MLY',
-                    'departure_time' => Carbon::now(),
-                    'arrival_time' =>Carbon::tomorrow(),
-                ],
-                [
-                    'flight_code' => 'JT613',
-                    'origin' => 'USA',
-                    'destination' => 'AUS',
-                    'departure_time' => Carbon::now(),
-                    'arrival_time' =>Carbon::tomorrow(),
-                ],
-                [
-                    'flight_code' => 'JT614',
-                    'origin' => 'KKN',
-                    'destination' => 'SSA',
-                    'departure_time' => Carbon::now(),
-                    'arrival_time' =>Carbon::createFromDate(2024,12,2),
-                ],
-                // Carbon::create($year, $month, $day, $hour, $minute, $second, $tz)."\n";
-        ];
+        $faker = Factory::create();
+        $usedFlightCodes = []; // Array to track used flight codes
 
-        foreach ($flights as $f){
-            Flight::create($f);
+        for ($i = 0; $i < 10; $i++) {
+            do {
+                $flightCode = $faker->bothify('JT###');
+            } while (in_array($flightCode, $usedFlightCodes)); // Ensure it's unique
+
+            $usedFlightCodes[] = $flightCode; // Add to the used codes list
+
+            Flight::create([
+                'flight_code' => $flightCode,
+                'origin' => $faker->stateAbbr,
+                'destination' => $faker->stateAbbr,
+                'departure_time' => $faker->dateTimeBetween('now', '+1 year'),
+                'arrival_time' => $faker->dateTimeBetween('+1 year', '+2 year'),
+            ]);
         }
-
     }
 }
